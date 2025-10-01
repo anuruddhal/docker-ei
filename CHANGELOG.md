@@ -4,6 +4,10 @@ All notable changes to this project `4.5.x` per each release will be documented 
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [v4.5.0.0] - 2025-10-01
+### Changed
+- Add resources for micro-integrator 4.5.0.
+
 ## [v4.2.0.8] - 2025-02-20
 ### Changed
 - Updated OS and JDK versions in micro-integrator Dockerfiles for Alpine, Rocky and Ubuntu for MI 4.4.0 release.
