@@ -41,7 +41,7 @@ As an example, steps required to change the port offset using `deployment.toml` 
 ##### 1. Stop the WSO2 Integration Control Plane container if it's already running.
 
 In WSO2 Integration Control Plane 1.0.0 product distribution, `deployment.toml` configuration file can be
- found at `<DISTRIBUTION_HOME>/conf/server/`.<br>
+ found at `<DISTRIBUTION_HOME>/conf/`.<br>
 Copy the file to some suitable location of the host machine, referred to as `<SOURCE_CONFIGS>/deployment.toml` and change the<br>
 offset value (`[server]->offset`) to 1.
 
@@ -60,7 +60,7 @@ docker run -it \
 wso2-integration-control-plane:1.0.0-alpine
 ```
 
-> In here, <TARGET_CONFIGS> refers to /home/wso2carbon/wso2-integration-control-plane-1.0.0/conf/server folder of the container.
+> In here, <TARGET_CONFIGS> refers to /home/wso2carbon/wso2-integration-control-plane-1.0.0/conf folder of the container.
 
 ## WSO2 Private Docker images
 
