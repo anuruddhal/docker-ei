@@ -17,12 +17,12 @@
 # ------------------------------------------------------------------------
 
 # set base Docker image to Alpine Docker image
-FROM alpine:3.17.2
+FROM alpine:3.22.2
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 # install dependencies
-RUN apk add --no-cache tzdata musl-locales musl-locales-lang netcat-openbsd \
+RUN apk update && apk upgrade --no-cache && apk add --no-cache tzdata musl-locales musl-locales-lang netcat-openbsd \
     && rm -rf /var/cache/apk/*
 
 ENV JAVA_VERSION jdk-17.0.6+10
