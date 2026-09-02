@@ -77,11 +77,15 @@ ARG USER_GROUP_ID=10802
 ARG USER_HOME=/home/${USER}
 # build arguments for WSO2 product installation
 ARG WSO2_SERVER_NAME=wso2-integration-control-plane
-ARG WSO2_SERVER_VERSION=2.0.0
+ARG WSO2_SERVER_VERSION=2.1.0
 ARG WSO2_SERVER_REPOSITORY=micro-integrator
 ARG WSO2_SERVER=${WSO2_SERVER_NAME}-${WSO2_SERVER_VERSION}
 ARG WSO2_SERVER_HOME=${USER_HOME}/${WSO2_SERVER}
-ARG WSO2_SERVER_DIST_URL=<INTEGRATION_CONTROL_PLANE_DIST_URL>
+ARG WSO2_SERVER_DIST_URL=https://github.com/wso2/integration-control-plane/releases/download/v2.1.0-alpha/wso2-integration-control-plane-2.1.0-alpha.zip
+# name of the top-level directory inside the distribution zip; only differs from
+# ${WSO2_SERVER} when the release artifact's folder name doesn't match WSO2_SERVER_VERSION
+# (e.g. a pre-GA "-alpha"/"-beta" suffixed pack being labeled with its target GA version)
+ARG WSO2_SERVER_DIST_FOLDER=wso2-integration-control-plane-2.1.0-alpha
 # build argument for MOTD
 ARG MOTD="\n\
 Welcome to WSO2 Docker resources.\n\
@@ -104,6 +108,7 @@ RUN \
     wget -O ${WSO2_SERVER}.zip "${WSO2_SERVER_DIST_URL}" \
     && unzip -d ${USER_HOME} ${WSO2_SERVER}.zip \
     && rm -f ${WSO2_SERVER}.zip \
+    && if [ "${WSO2_SERVER_DIST_FOLDER}" != "$(basename ${WSO2_SERVER_HOME})" ]; then mv "${USER_HOME}/${WSO2_SERVER_DIST_FOLDER}" "${WSO2_SERVER_HOME}"; fi \
     && chown wso2carbon:wso2 -R ${WSO2_SERVER_HOME}
 
 # remove unnecesary packages
