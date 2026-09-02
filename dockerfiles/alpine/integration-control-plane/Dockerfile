@@ -67,7 +67,7 @@ ENV JAVA_HOME=/opt/java/openjdk \
     PATH="/usr/glibc-compat/bin:/opt/java/openjdk/bin:$PATH"
 
 LABEL maintainer="WSO2 Docker Maintainers <dev@wso2.org>" \
-      com.wso2.docker.source="https://github.com/wso2/docker-ei/releases/tag/v4.6.0.0"
+      com.wso2.docker.source="https://github.com/wso2/docker-ei/releases/tag/v2.0.0"
 
 ARG USER=wso2carbon
 ARG USER_ID=10802
@@ -97,7 +97,7 @@ RUN \
 COPY --chown=${USER}:${USER_GROUP} docker-entrypoint.sh ${USER_HOME}/
 
 RUN \
-    wget -O ${WSO2_SERVER}.zip "${WSO2_SERVER_DIST_URL}" \
+    curl -fL -o ${WSO2_SERVER}.zip "${WSO2_SERVER_DIST_URL}" \
     && unzip -d ${USER_HOME} ${WSO2_SERVER}.zip \
     && rm -f ${WSO2_SERVER}.zip \
     && chown wso2carbon:wso2 -R ${WSO2_SERVER_HOME}
