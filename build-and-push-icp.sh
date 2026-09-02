@@ -44,8 +44,15 @@ if ! docker buildx inspect "${BUILDER}" > /dev/null 2>&1; then
     log "Creating multi-arch builder '${BUILDER}' ..."
     docker buildx create --name "${BUILDER}" --driver docker-container --bootstrap
 else
-    log "Reusing existing builder '${BUILDER}'"
-    docker buildx inspect "${BUILDER}" --bootstrap > /dev/null
+    existing_driver="$(docker buildx inspect "${BUILDER}" 2>/dev/null | awk -F': *' '/^Driver:/{print $2}')"
+    if [[ "${existing_driver}" != "docker-container" ]]; then
+        log "Existing builder '${BUILDER}' uses driver '${existing_driver}' (needs docker-container for multi-platform + push); recreating ..."
+        docker buildx rm "${BUILDER}" > /dev/null 2>&1
+        docker buildx create --name "${BUILDER}" --driver docker-container --bootstrap
+    else
+        log "Reusing existing builder '${BUILDER}'"
+        docker buildx inspect "${BUILDER}" --bootstrap > /dev/null
+    fi
 fi
 
 build_and_push() {
