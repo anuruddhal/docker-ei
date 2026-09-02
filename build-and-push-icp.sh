@@ -32,10 +32,10 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 docker info > /dev/null 2>&1 || die "Docker daemon is not running. Start Docker Desktop and retry."
 docker buildx version > /dev/null 2>&1 || die "docker buildx is not available."
 
-# Verify Docker Hub login by checking credentials
-if ! docker system info --format '{{.RegistryConfig.IndexConfigs}}' 2>/dev/null | grep -q "docker.io"; then
-    log "WARNING: May not be logged in to Docker Hub. Run: docker login"
-fi
+# Docker Hub login isn't reliably checkable across credential-store backends
+# (osxkeychain, desktop, pass, wincred, ...). If not logged in, run `docker
+# login` first — otherwise `docker buildx build --push` below will fail with
+# a clear authentication error.
 
 # ---------------------------------------------------------------------------
 # Create (or reuse) a multi-arch builder
